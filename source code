@@ -1,0 +1,49 @@
+# import the necessary modules for functions used
+import os, platform, random
+
+
+# A list of replies that are replied in print
+possibleReplies = [
+    repr("absolutely not"),
+    repr("certainly"),
+    repr("certainly not"),
+    repr("focus then repeat"),
+    repr("it's possible"),
+    repr("maybe"),
+    repr("no"),
+    repr("nope"),
+    repr("notta"),
+    repr("repeat louder"),
+    repr("repeat quieter"),
+    repr("reply hazy"),
+    repr("sure"),
+    repr("unclear"),
+    repr("yes"),
+    repr("calculating, beep boop beep boop"),
+]
+
+# the game function
+def game():
+    input("type in your question >>>")
+    # detects your system os to know which command to run
+    syst = platform.system()
+    if syst == "Linux" and platform.linux_distribution()[0] == "Ubuntu":
+        os.system(
+            "spd-say %s" % possibleReplies[random.randint(0, len(possibleReplies) - 1)]
+        )
+    elif syst == "Windows":
+        os.system(
+            'PowerShell -Command "Add-Type –AssemblyName System.Speech; (New-Object System.Speech.Synthesis.SpeechSynthesizer).Speak(%s);"'
+            % possibleReplies[random.randint(0, len(possibleReplies) - 1)]
+        )
+    elif syst == "Darwin":
+        os.system(
+            "say %s" % possibleReplies[random.randint(0, len(possibleReplies) - 1)]
+        )
+    else:
+        raise RuntimeError("Operating System '%s' is not supported" % syst)
+
+
+# an infinite loop calling the game function
+while True:
+    game()
